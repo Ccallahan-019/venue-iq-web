@@ -1,8 +1,18 @@
-import type { NextConfig } from "next";
+import { withPayload } from '@payloadcms/next/withPayload'
+
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  reactCompiler: true,
-};
+  webpack: (webpackConfig) => {
+    webpackConfig.resolve.extensionAlias = {
+      '.cjs': ['.cts', '.cjs'],
+      '.js': ['.ts', '.tsx', '.js', '.jsx'],
+      '.mjs': ['.mts', '.mjs'],
+    }
 
-export default nextConfig;
+    return webpackConfig
+  },
+  reactStrictMode: true,
+}
+
+export default withPayload(nextConfig)

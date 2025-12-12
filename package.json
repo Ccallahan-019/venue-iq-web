@@ -3,13 +3,25 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev --turbo",
+    "build": "cross-env NODE_OPTIONS=--no-deprecation next build",
+    "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
+    "lint": "cross-env NODE_OPTIONS=--no-deprecation eslint",
+    "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
+    "migrate": "cross-env NODE_OPTIONS=--no-deprecation payload migrate",
+    "migrate:down": "cross-env NODE_OPTIONS=--no-deprecation payload migrate --down",
+    "migrate:generate": "cross-env NODE_OPTIONS=--no-deprecation payload generate:migration"
   },
   "dependencies": {
-    "next": "16.0.9",
+    "@apollo/client": "^4.0.10",
+    "@apollo/client-integration-nextjs": "^0.14.1",
+    "@payloadcms/db-vercel-postgres": "^3.68.3",
+    "@payloadcms/next": "^3.68.3",
+    "@payloadcms/richtext-lexical": "^3.68.3",
+    "cross-env": "^10.1.0",
+    "graphql": "^16.12.0",
+    "next": "^15.4.10",
+    "payload": "^3.68.3",
     "react": "19.2.1",
     "react-dom": "19.2.1",
     "zod": "^4.1.13"
