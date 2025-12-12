@@ -1,11 +1,11 @@
 import { z } from 'zod'
 
 const clientEnvSchema = z.object({
-  NEXT_PUBLIC_APP_URL: z.url(),
+  NEXT_PUBLIC_SERVER_URL: z.url(),
 })
 
 const parsed = clientEnvSchema.safeParse({
-  NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+  NEXT_PUBLIC_SERVER_URL: process.env.NEXT_PUBLIC_SERVER_URL,
 })
 
 if (!parsed.success) {

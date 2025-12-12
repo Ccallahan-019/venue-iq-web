@@ -4,7 +4,7 @@ const serverEnvSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']),
   POSTGRES_URL: z.string().min(1),
   PAYLOAD_SECRET: z.string().min(1),
-  PAYLOAD_URL: z.url(),
+  SERVER_URL: z.url(),
 })
 
 const parsed = serverEnvSchema.safeParse(process.env)
