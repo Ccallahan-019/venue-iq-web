@@ -28,6 +28,7 @@ We use separate Neon branches per environment:
 | ------------------------ | ------------ | --------------------------------------- |
 | `POSTGRES_URL`           | All          | Neon/Vercel Postgres connection string  |
 | `PAYLOAD_SECRET`         | All          | Secret for Payload auth / sessions      |
+| `SERVER_URL`             | All          | Server URL                              |
 | `NEXT_PUBLIC_SERVER_URL` | All          | Public URL                              |
 | `NODE_ENV`               | All          | `development` / `production`            |
 
