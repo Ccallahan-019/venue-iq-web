@@ -5,3 +5,23 @@ body {
   margin: 0;
   padding: 0;
 }
+
+/* Radix customizations */
+.radix-themes {
+  --default-font-family: var(--font-inter);
+
+  --cursor-button: pointer;
+  --cursor-checkbox: pointer;
+  --cursor-disabled: default;
+  --cursor-link: pointer;
+  --cursor-menu-item: pointer;
+  --cursor-radio: pointer;
+  --cursor-slider-thumb: grab;
+  --cursor-slider-thumb-active: grabbing;
+  --cursor-switch: pointer;
+
+  --container-1: 488px;
+  --container-2: 736px;
+  --container-3: 992px;
+  --container-4: 1248px;
+}

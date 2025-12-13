@@ -42,3 +42,6 @@ next-env.d.ts
 
 #project to-do
 TODO.md
+
+#component kitchen sink
+src/app/(frontend)/kitchen-sink
