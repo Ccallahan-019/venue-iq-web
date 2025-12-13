@@ -1,5 +1,5 @@
-import { env } from '../env/env.server'
-import canUseDOM from './canUseDOM'
+import { env } from '../env'
+import { canUseDOM } from './canUseDOM'
 
 let url: string | null = null
 

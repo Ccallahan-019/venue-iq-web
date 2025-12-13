@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 
 import { Theme, ThemeProps } from '@radix-ui/themes'
 
-import { useTheme } from '../Theme'
+import { useTheme } from '../Theme/ThemeProvider'
 
 export const RadixThemeProvider: React.FC<ThemeProps> = (props) => {
   const { theme } = useTheme()

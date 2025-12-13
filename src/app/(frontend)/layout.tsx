@@ -3,8 +3,8 @@ import '@radix-ui/themes/styles.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
-import { RadixThemeProvider } from '@/lib/providers/RadixTheme'
-import { ThemeProvider } from '@/lib/providers/Theme'
+import { RadixThemeProvider } from '@/lib/providers'
+import { ThemeProvider } from '@/lib/providers'
 
 import './globals.css'
 
