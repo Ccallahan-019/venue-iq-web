@@ -2,7 +2,16 @@ import nextVitals from 'eslint-config-next/core-web-vitals'
 import nextTs from 'eslint-config-next/typescript'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
-const eslintConfig = defineConfig([
+export default defineConfig([
+  globalIgnores([
+    '**/.next/**',
+    '**/node_modules/**',
+    '**/dist/**',
+    '**/.turbo/**',
+    '**/out/**',
+    '**/.vercel/**',
+  ]),
+
   ...nextVitals,
   ...nextTs,
 
@@ -26,7 +35,11 @@ const eslintConfig = defineConfig([
     },
   },
 
-  globalIgnores(['.next/**', 'node_modules/**']),
+  {
+    files: ['packages/**'],
+    rules: {
+      '@next/next/no-html-link-for-pages': 'off',
+      '@next/next/no-img-element': 'off',
+    },
+  },
 ])
-
-export default eslintConfig

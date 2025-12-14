@@ -14,8 +14,9 @@
 /coverage
 
 # next.js
-/.next/
-/out/
+**/.next/
+**/out/
+**/build/
 
 # production
 /build
@@ -26,22 +27,26 @@
 
 # debug
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
 
 # env files (can opt-in for committing if needed)
-.env*
+**/.env.local
+**/.env.*.local
+.env
 
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
+
+# dist
+packages/*/dist
+
+#turbo
+.turbo/
 
 #project to-do
 TODO.md
 
 #component kitchen sink
-src/app/(frontend)/kitchen-sink
+apps/web/src/app/kitchen-sink

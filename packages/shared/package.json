@@ -1,0 +1,44 @@
+{
+  "name": "@venue-iq/shared",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./env/web": {
+      "types": "./src/env/web.ts",
+      "default": "./src/env/web.ts"
+    },
+    "./env/cms": {
+      "types": "./src/env/cms.ts",
+      "default": "./src/env/cms.ts"
+    }
+  },
+  "scripts": {
+    "build": "cross-env NODE_OPTIONS=--no-deprecation tsc -p tsconfig.json",
+    "lint": "cross-env NODE_OPTIONS=--no-deprecation eslint .",
+    "typecheck": "cross-env NODE_OPTIONS=--no-deprecation tsc -p tsconfig.json --noEmit",
+    "clean": "cross-env NODE_OPTIONS=--no-deprecation rimraf dist"
+  },
+  "dependencies": {
+    "@apollo/client": "^4.0.10",
+    "@apollo/client-integration-nextjs": "^0.14.1"
+  },
+  "devDependencies": {
+    "cross-env": "^10.1.0",
+    "rimraf": "^6.0.0",
+    "typescript": "^5.0.0"
+  },
+  "peerDependencies": {
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
+  }
+}

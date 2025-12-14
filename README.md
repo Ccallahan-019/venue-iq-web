@@ -1,36 +1,111 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Venue IQ Monorepo
 
-## Getting Started
+This repository contains the core codebase for Venue IQ, a web-based SaaS platform focused on transforming fragmented venue concessions data into real-time, actionable insights.
 
-First, run the development server:
+The repo is structured as a monorepo with multiple deployable applications and shared internal packages, designed to support independent deployments, shared UI and logic, and clean separation of concerns.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## High-Level Overview
+
+Venue IQ is split into two primary applications:
+
+**Web App** – the public-facing application and primary user interface
+
+**CMS** – a Payload-powered content and data management system running inside Next.js
+
+These applications are deployed independently (e.g. as separate Vercel projects) and communicate over HTTP. Shared UI components, utilities, and types live in internal workspace packages.
+
+Because the web app does not have direct access to Payload’s local API, all data access happens over GraphQL using Apollo Client, including server-side data fetching.
+
+## Repository Structure
+
+```txt
+apps/
+  web/                # Next.js web application
+  cms/                # Next.js app running Payload CMS
+
+packages/
+  ui/                 # Shared UI components (Radix-based)
+  shared/              # Shared utilities, types, env helpers, GraphQL helpers
+
+.eslintrc / eslint.config.mjs
+turbo.json
+tsconfig.json
+package.json
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+`apps/web`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Next.js App Router
+- Uses Apollo Client for GraphQL data fetching
+- Consumes CMS data via Payload's GraphQL endpoint
+- Imports shared UI and utilities from `packages/`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`apps/cms`
 
-## Learn More
+- Next.js app running Payload CMS
+- Owns:
+  - Payload config
+  - collections
+  - access rules
+  - admin UI
+- Exposes REST + GraphQL APIs for the web app
+- Handles authentication, email, and database access
 
-To learn more about Next.js, take a look at the following resources:
+`packages/ui`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Shared design system and UI components
+- Built on Radix Themes & Primitives
+- Framework-agnostic (no Next.js assumptions)
+- React is treated as a peer dependency
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+`packages/shared`
 
-## Deploy on Vercel
+- Shared, non-UI logic:
+  - environment variable validation (Zod)
+  - helpers and utilities
+  - shared types
+  - GraphQL helpers/fragments
+- Explicit subpath exports for env modules:
+  - `@venue-iq/shared/env/web`
+  - `@venue-iq/shared/env/cms`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+`packages/cms-types`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- ingests Payload types when types are generated from `npm run generate:types`
+- makes CMS types available across both the CMS and application
+
+## Tech Stack
+
+### Core
+
+- Next.js (App Router)
+- TypeScript
+- Payload CMS (running inside Next.js)
+- PostgreSQL
+
+### Data & Networking
+
+- GraphQL
+- Apollo Client
+  - Used in the web app for both server-side and client-side data fetching
+  - Required due to CMS being deployed as a separate service
+
+### UI & Styling
+
+- Radix Themes & Primitives
+- PostCSS
+- (Tailwind optional / app-specific if enabled)
+
+### Tooling
+
+- Turborepo – task orchestration and caching
+- npm workspaces – dependency management
+- ESLint (flat config) – shared linting across apps and packages
+- Zod – environment variable validation
+
+### Hosting / CI
+
+- Vercel
+  - One project per app (`apps/web`, `apps/cms`)
+  - Preview deployments for feature branches
+  - Production deployments from `main`
