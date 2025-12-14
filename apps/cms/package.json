@@ -12,9 +12,7 @@
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "migrate": "cross-env NODE_OPTIONS=--no-deprecation payload migrate",
-    "migrate:down": "cross-env NODE_OPTIONS=--no-deprecation payload migrate --down",
-    "migrate:generate": "cross-env NODE_OPTIONS=--no-deprecation payload generate:migration",
-    "ci": "npm run migrate && npm run build"
+    "build:ci": "npm run migrate && npm run build"
   },
   "dependencies": {
     "@venue-iq/ui": "0.0.0",
