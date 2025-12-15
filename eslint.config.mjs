@@ -10,6 +10,7 @@ export default defineConfig([
     '**/.turbo/**',
     '**/out/**',
     '**/.vercel/**',
+    '**/next-env.d.ts',
   ]),
 
   ...nextVitals,

@@ -1,3 +1,2 @@
-export * from './Media'
-export * from './Pages'
-export * from './Users'
+export { Users } from './Users'
+export { Tenants } from './Tenants'

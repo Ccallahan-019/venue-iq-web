@@ -1,4 +1,5 @@
 import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres'
+import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { Config } from '@venue-iq/cms-types'
 import { cmsEnv } from '@venue-iq/shared/env/cms'
@@ -7,7 +8,9 @@ import { buildConfig } from 'payload'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
-import { Media, Pages, Users } from '@/collections'
+import { Tenants, Users } from '@/collections'
+
+import { isPlatformAdmin } from './access'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -22,9 +25,10 @@ export default buildConfig({
     user: Users.slug,
     importMap: {
       baseDir: path.resolve(dirname),
+      importMapFile: path.resolve(dirname, 'app', 'admin', 'importMap.js'),
     },
   },
-  collections: [Users, Media, Pages],
+  collections: [Tenants, Users],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
@@ -37,5 +41,23 @@ export default buildConfig({
     },
   }),
   sharp,
-  plugins: [],
+  plugins: [
+    multiTenantPlugin<Config>({
+      collections: {},
+      tenantField: {
+        access: {
+          read: () => true,
+          update: ({ req: { user } }) => {
+            if (isPlatformAdmin(user)) return true
+
+            return false
+          },
+        },
+      },
+      tenantsArrayField: {
+        includeDefaultField: false,
+      },
+      userHasAccessToAllTenants: (user) => isPlatformAdmin(user),
+    }),
+  ],
 })

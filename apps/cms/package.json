@@ -15,12 +15,13 @@
     "build:ci": "npm run migrate && npm run build"
   },
   "dependencies": {
-    "@venue-iq/ui": "0.0.0",
-    "@venue-iq/shared": "0.0.0",
-    "@venue-iq/cms-types": "0.0.0",
     "@payloadcms/db-vercel-postgres": "^3.68.3",
     "@payloadcms/next": "^3.68.3",
+    "@payloadcms/plugin-multi-tenant": "^3.68.3",
     "@payloadcms/richtext-lexical": "^3.68.3",
+    "@venue-iq/cms-types": "0.0.0",
+    "@venue-iq/shared": "0.0.0",
+    "@venue-iq/ui": "0.0.0",
     "cross-env": "^10.1.0",
     "cross-fetch": "^4.1.0",
     "graphql": "^16.12.0",
