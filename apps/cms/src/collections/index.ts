@@ -1,2 +1,4 @@
+export { InventoryItems } from './InventoryItems'
 export { Users } from './Users'
 export { Tenants } from './Tenants'
+export { Venues } from './Venues'

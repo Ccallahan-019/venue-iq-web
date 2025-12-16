@@ -69,15 +69,23 @@ export interface Config {
   collections: {
     tenants: Tenant;
     users: User;
+    venues: Venue;
+    inventoryItems: InventoryItem;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    venues: {
+      inventory: 'inventoryItems';
+    };
+  };
   collectionsSelect: {
     tenants: TenantsSelect<false> | TenantsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    venues: VenuesSelect<false> | VenuesSelect<true>;
+    inventoryItems: InventoryItemsSelect<false> | InventoryItemsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -187,6 +195,120 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "venues".
+ */
+export interface Venue {
+  id: number;
+  tenant?: (number | null) | Tenant;
+  name: string;
+  type: 'sportsStadium' | 'concertArena' | 'collegeVenue' | 'minorLeaguePark' | 'conventionCenter' | 'other';
+  location: {
+    addressLine1: string;
+    addressLine2?: string | null;
+    city: string;
+    state:
+      | 'AL'
+      | 'AK'
+      | 'AZ'
+      | 'AR'
+      | 'CA'
+      | 'CO'
+      | 'CT'
+      | 'DE'
+      | 'FL'
+      | 'GA'
+      | 'HI'
+      | 'ID'
+      | 'IL'
+      | 'IN'
+      | 'IA'
+      | 'KS'
+      | 'KY'
+      | 'LA'
+      | 'ME'
+      | 'MD'
+      | 'MA'
+      | 'MI'
+      | 'MN'
+      | 'MS'
+      | 'MO'
+      | 'MT'
+      | 'NE'
+      | 'NV'
+      | 'NH'
+      | 'NJ'
+      | 'NM'
+      | 'NY'
+      | 'NC'
+      | 'ND'
+      | 'OH'
+      | 'OK'
+      | 'OR'
+      | 'PA'
+      | 'RI'
+      | 'SC'
+      | 'SD'
+      | 'TN'
+      | 'TX'
+      | 'UT'
+      | 'VT'
+      | 'VA'
+      | 'WA'
+      | 'WV'
+      | 'WI'
+      | 'WY';
+    zipCode: string;
+  };
+  /**
+   * Maximum seating or attendee capacity.
+   */
+  capacity: number;
+  /**
+   * Used for event scheduling and cross-venue reporting.
+   */
+  timeZone:
+    | 'America/New_York'
+    | 'America/Chicago'
+    | 'America/Denver'
+    | 'America/Los_Angeles'
+    | 'America/Anchorage'
+    | 'Pacific/Honolulu';
+  inventory?: {
+    docs?: (number | InventoryItem)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "inventoryItems".
+ */
+export interface InventoryItem {
+  id: number;
+  tenant?: (number | null) | Tenant;
+  name: string;
+  venue: number | Venue;
+  unitOfMeasure: 'each' | 'case' | 'pack' | 'lb' | 'oz' | 'gal' | 'l' | 'ml';
+  /**
+   * Examples: Meat, Beverage Supply, Packaging
+   */
+  category: string;
+  costingMethod: 'fifo' | 'weightedAverage';
+  /**
+   * Last purchase unit cost (used to compute rolling average later).
+   */
+  unitCost: number;
+  /**
+   * Minimum/target on-hand level that triggers reorder.
+   */
+  parLevel?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -216,6 +338,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'users';
         value: number | User;
+      } | null)
+    | ({
+        relationTo: 'venues';
+        value: number | Venue;
+      } | null)
+    | ({
+        relationTo: 'inventoryItems';
+        value: number | InventoryItem;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -313,6 +443,45 @@ export interface UsersSelect<T extends boolean = true> {
         createdAt?: T;
         expiresAt?: T;
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "venues_select".
+ */
+export interface VenuesSelect<T extends boolean = true> {
+  tenant?: T;
+  name?: T;
+  type?: T;
+  location?:
+    | T
+    | {
+        addressLine1?: T;
+        addressLine2?: T;
+        city?: T;
+        state?: T;
+        zipCode?: T;
+      };
+  capacity?: T;
+  timeZone?: T;
+  inventory?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "inventoryItems_select".
+ */
+export interface InventoryItemsSelect<T extends boolean = true> {
+  tenant?: T;
+  name?: T;
+  venue?: T;
+  unitOfMeasure?: T;
+  category?: T;
+  costingMethod?: T;
+  unitCost?: T;
+  parLevel?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

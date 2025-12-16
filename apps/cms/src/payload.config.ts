@@ -8,7 +8,7 @@ import { buildConfig } from 'payload'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
-import { Tenants, Users } from '@/collections'
+import { InventoryItems, Tenants, Users, Venues } from '@/collections'
 
 import { isPlatformAdmin } from './access'
 
@@ -28,7 +28,7 @@ export default buildConfig({
       importMapFile: path.resolve(dirname, 'app', 'admin', 'importMap.js'),
     },
   },
-  collections: [Tenants, Users],
+  collections: [Tenants, Users, Venues, InventoryItems],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
@@ -43,7 +43,10 @@ export default buildConfig({
   sharp,
   plugins: [
     multiTenantPlugin<Config>({
-      collections: {},
+      collections: {
+        venues: {},
+        inventoryItems: {},
+      },
       tenantField: {
         access: {
           read: () => true,
