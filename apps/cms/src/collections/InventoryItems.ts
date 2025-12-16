@@ -117,7 +117,7 @@ export const InventoryItems: CollectionConfig = {
                   fields: [
                     {
                       name: 'price',
-                      label: 'Current Purchase Price',
+                      label: 'Unit Purchase Price',
                       type: 'number',
                       required: true,
                       admin: {
