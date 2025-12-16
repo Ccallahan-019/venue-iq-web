@@ -71,6 +71,7 @@ export interface Config {
     users: User;
     venues: Venue;
     inventoryItems: InventoryItem;
+    vendors: Vendor;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -80,12 +81,16 @@ export interface Config {
     venues: {
       inventory: 'inventoryItems';
     };
+    vendors: {
+      catalog: 'inventoryItems';
+    };
   };
   collectionsSelect: {
     tenants: TenantsSelect<false> | TenantsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     venues: VenuesSelect<false> | VenuesSelect<true>;
     inventoryItems: InventoryItemsSelect<false> | InventoryItemsSelect<true>;
+    vendors: VendorsSelect<false> | VendorsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -313,6 +318,34 @@ export interface InventoryItem {
    * Minimum/target on-hand level that triggers reorder.
    */
   parLevel?: number | null;
+  sources: {
+    source: number | Vendor;
+    price: number;
+    itemCode?: string | null;
+    id?: string | null;
+  }[];
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "vendors".
+ */
+export interface Vendor {
+  id: number;
+  tenant?: (number | null) | Tenant;
+  name: string;
+  venue: number | Venue;
+  primaryContact: {
+    phone: string;
+    email: string;
+    name?: string | null;
+  };
+  catalog?: {
+    docs?: (number | InventoryItem)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -355,6 +388,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'inventoryItems';
         value: number | InventoryItem;
+      } | null)
+    | ({
+        relationTo: 'vendors';
+        value: number | Vendor;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -489,6 +526,33 @@ export interface InventoryItemsSelect<T extends boolean = true> {
   costingMethod?: T;
   unitCost?: T;
   parLevel?: T;
+  sources?:
+    | T
+    | {
+        source?: T;
+        price?: T;
+        itemCode?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "vendors_select".
+ */
+export interface VendorsSelect<T extends boolean = true> {
+  tenant?: T;
+  name?: T;
+  venue?: T;
+  primaryContact?:
+    | T
+    | {
+        phone?: T;
+        email?: T;
+        name?: T;
+      };
+  catalog?: T;
   updatedAt?: T;
   createdAt?: T;
 }
