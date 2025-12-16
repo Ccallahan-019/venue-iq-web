@@ -1,6 +1,7 @@
 import { CollectionConfig } from 'payload'
 
 import { authenticated } from '@/access'
+import { VENDOR_TYPE_OPTIONS } from '@/fields/vendorTypeOptions'
 
 export const Vendors: CollectionConfig = {
   slug: 'vendors',
@@ -27,11 +28,21 @@ export const Vendors: CollectionConfig = {
               index: true,
             },
             {
+              name: 'type',
+              type: 'select',
+              required: true,
+              hasMany: true,
+              options: VENDOR_TYPE_OPTIONS,
+            },
+            {
               name: 'venue',
               type: 'relationship',
               relationTo: 'venues',
               hasMany: false,
               required: true,
+              admin: {
+                description: 'The venue this vendor supplies.',
+              },
             },
             {
               name: 'primaryContact',

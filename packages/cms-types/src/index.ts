@@ -335,6 +335,10 @@ export interface Vendor {
   id: number;
   tenant?: (number | null) | Tenant;
   name: string;
+  type: ('food' | 'beverage' | 'beer' | 'merchandise')[];
+  /**
+   * The venue this vendor supplies.
+   */
   venue: number | Venue;
   primaryContact: {
     phone: string;
@@ -544,6 +548,7 @@ export interface InventoryItemsSelect<T extends boolean = true> {
 export interface VendorsSelect<T extends boolean = true> {
   tenant?: T;
   name?: T;
+  type?: T;
   venue?: T;
   primaryContact?:
     | T
