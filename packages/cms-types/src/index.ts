@@ -137,7 +137,16 @@ export interface Tenant {
   generateSlug?: boolean | null;
   slug: string;
   defaults?: {
-    timezone?: string | null;
+    timeZone?:
+      | (
+          | 'America/New_York'
+          | 'America/Chicago'
+          | 'America/Denver'
+          | 'America/Los_Angeles'
+          | 'America/Anchorage'
+          | 'Pacific/Honolulu'
+        )
+      | null;
     currency?: string | null;
   };
   updatedAt: string;
@@ -400,7 +409,7 @@ export interface TenantsSelect<T extends boolean = true> {
   defaults?:
     | T
     | {
-        timezone?: T;
+        timeZone?: T;
         currency?: T;
       };
   updatedAt?: T;

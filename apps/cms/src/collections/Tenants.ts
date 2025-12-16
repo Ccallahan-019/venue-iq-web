@@ -1,6 +1,7 @@
 import { type CollectionConfig, slugField } from 'payload'
 
 import { authenticated, isPlatformAdminAccess } from '@/access'
+import { TIME_ZONE_OPTIONS } from '@/fields'
 
 export const Tenants: CollectionConfig = {
   slug: 'tenants',
@@ -28,7 +29,12 @@ export const Tenants: CollectionConfig = {
       type: 'group',
       name: 'defaults',
       fields: [
-        { name: 'timezone', type: 'text', defaultValue: 'America/New_York' },
+        {
+          name: 'timeZone',
+          type: 'select',
+          options: TIME_ZONE_OPTIONS,
+          defaultValue: 'America/New_York',
+        },
         { name: 'currency', type: 'text', defaultValue: 'USD' },
       ],
     },
