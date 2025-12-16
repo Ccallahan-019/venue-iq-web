@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { authenticated } from '@/access'
-import { STATE_OPTIONS } from '@/fields'
+import { STATE_OPTIONS, TIME_ZONE_OPTIONS } from '@/fields'
 
 export const Venues: CollectionConfig = {
   slug: 'venues',
@@ -90,14 +90,7 @@ export const Venues: CollectionConfig = {
               name: 'timeZone',
               type: 'select',
               required: true,
-              options: [
-                { label: 'Eastern Time (ET)', value: 'America/New_York' },
-                { label: 'Central Time (CT)', value: 'America/Chicago' },
-                { label: 'Mountain Time (MT)', value: 'America/Denver' },
-                { label: 'Pacific Time (PT)', value: 'America/Los_Angeles' },
-                { label: 'Alaska Time', value: 'America/Anchorage' },
-                { label: 'Hawaii Time', value: 'Pacific/Honolulu' },
-              ],
+              options: TIME_ZONE_OPTIONS,
               admin: {
                 description: 'Used for event scheduling and cross-venue reporting.',
               },
